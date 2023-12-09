@@ -34,21 +34,29 @@ def index():
 # admin endpoint
 @app.route('/admin', methods=['GET', 'POST'])
 def admin():
-
-    username = None
+    username = None  
+    indexed_seating_chart = [['O' for _ in range(4)] for _ in range(12)] 
 
     if request.method == 'POST':
-        username = request.form.get('username')
+        username_input = request.form.get('username')
         password = request.form.get('password')
 
-        if admin_check(username, password):
-            flash('Login successful!', 'success')
-            return redirect(url_for('admin'))  
+        if admin_check(username_input, password):
+            flash('Login successful!', 'success')  
+            username = username_input 
+#get the positions from the txt file. Read them as columns 
+            with open('reservations.txt', 'r') as seat:
+                for line in seat: 
+                    parts = line.strip().split(',')
+                    if len(parts)== 4:
+                        row, col= map(int, (parts[1],parts[2]))
+                        indexed_seating_chart[row][col] = 'X'
+
+
         else:
-            flash('Login not successful. Check username or password', 'danger')
+            flash('Login unsuccessful. Please check your username and password.', 'danger')
 
-
-    return render_template('admin.html', username=username)
+    return render_template('admin.html', username=username, indexed_seating_chart=indexed_seating_chart)
 
 @app.route('/reservations')
 def reservation():

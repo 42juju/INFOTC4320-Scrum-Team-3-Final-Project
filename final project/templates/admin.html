@@ -42,8 +42,9 @@
             text-align: center;
         }
         table.seat-chart {
-            width: 60%;
-            height: 50%;
+            width: 30%;
+            height: 20%;
+            bottom: 30%;
         }
         table.seat-chart td {
             padding:10px;
@@ -81,7 +82,7 @@
     </form>
 
     {% if username %}
-      <h3>Indexed Seating Chart:</h3>
+      <h3>Printing Seating Chart:</h3>
       <table class="seat-chart" border="1">
         {% for row in indexed_seating_chart %}
           <tr>
@@ -95,3 +96,4 @@
 
 </body>
 </html>
+

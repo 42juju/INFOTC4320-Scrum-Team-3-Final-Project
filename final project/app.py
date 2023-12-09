@@ -58,9 +58,23 @@ def admin():
 
     return render_template('admin.html', username=username, indexed_seating_chart=indexed_seating_chart)
 
-@app.route('/reservations')
+@app.route('/reservation', methods=['GET', 'POST'])
 def reservation():
-    return render_template('reservations.html')
+    if request.method == 'POST':
+        first_name = request.form['first_name']
+        last_name = request.form['last_name']
+        row = request.form['row']
+        column = request.form['column']
 
+        reservation_info = f'{first_name}, {row}, {column}, {last_name}\n'
+
+        with open('reservation.txt', 'a') as seat:
+            seat.write(reservation_info)
+
+        flash('Reservation was made', 'success')
+        return redirect(url_for('reservation'))
+
+    return render_template('reservations.html')
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=5001)
+

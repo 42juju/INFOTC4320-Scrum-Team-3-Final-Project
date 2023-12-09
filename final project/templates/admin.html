@@ -38,8 +38,15 @@
             padding: 10px;
             cursor: pointer;
         }
-        h2,p {
+        h2, p {
             text-align: center;
+        }
+        table.seat-chart {
+            width: 60%;
+            height: 50%;
+        }
+        table.seat-chart td {
+            padding:10px;
         }
     </style>
 </head>
@@ -51,17 +58,18 @@
         <a href="{{ url_for('reservation') }}">Reservations</a>
     </nav>
 
-<hr>
+    <hr>
     <h2>Login</h2>
     {% with messages = get_flashed_messages() %}
-    {% if messages %}
-      <div class="alert">
-        {% for message in messages %}
-          {{ message }}
-        {% endfor %}
-      </div>
-    {% endif %}
-  {% endwith %}
+      {% if messages %}
+        <div class="alert">
+          {% for message in messages %}
+            {{ message }}
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+
     <form method="post" action="{{ url_for('admin') }}">
         <label for="username">Username:</label>
         <input type="text" id="username" name="username" required>
@@ -72,6 +80,18 @@
         <input type="submit" value="Login">
     </form>
 
+    {% if username %}
+      <h3>Indexed Seating Chart:</h3>
+      <table class="seat-chart" border="1">
+        {% for row in indexed_seating_chart %}
+          <tr>
+            {% for seat in row %}
+              <td>{{ seat }}</td>
+            {% endfor %}
+          </tr>
+        {% endfor %}
+      </table>
+    {% endif %}
 
 </body>
 </html>

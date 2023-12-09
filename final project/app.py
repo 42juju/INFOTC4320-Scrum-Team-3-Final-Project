@@ -68,11 +68,11 @@ def reservation():
 
         reservation_info = f'{first_name}, {row}, {column}, {last_name}\n'
 
-        with open('reservation.txt', 'a') as seat:
+        with open('reservations.txt', 'a') as seat:
             seat.write(reservation_info)
 
         flash('Reservation was made', 'success')
-        return redirect(url_for('reservation'))
+      #  return redirect(url_for('reservation'))
 
     return render_template('reservations.html')
 if __name__ == '__main__':
